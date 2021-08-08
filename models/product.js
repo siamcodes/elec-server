@@ -56,7 +56,8 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      enum: ["Honda", "Yamaha", "Suzuki", "Kawasaki", "Vespa"],
+      enum: ["-","Espressif","Atmel","Phillips","Microchip","Analog Device","STMicroelectronics","Parallax","Cypress","Texas Intruments","Motorola","Zilog","Rabbit Semiconductor","Renesas",
+      "Sumsung","Panasonic","Sony","Acer","Apple","Aston","Dell","Fujifilm","GoPro","HP","JBL","Lenovo","LG","Microsoft","Sandisk","WD","Zotac" ],
     },
     // brand: {
     //   type: ObjectId,
