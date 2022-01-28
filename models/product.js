@@ -22,6 +22,7 @@ const productSchema = new mongoose.Schema(
       maxlength: 500000,
       text: true,
     },
+  
     price: {
       type: Number,
       required: true,
