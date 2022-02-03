@@ -22,7 +22,16 @@ const productSchema = new mongoose.Schema(
       maxlength: 500000,
       text: true,
     },
-  
+    desc: {
+      type: {},
+      min: 10,
+      max: 5000000
+    },
+    content: {
+      type: {},
+      min: 10,
+      max: 50000000
+    },
     price: {
       type: Number,
       required: true,
@@ -57,8 +66,8 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      enum: ["Espressif","Atmel","Phillips","Microchip","Analog Device","STMicroelectronics","Parallax","Cypress","Texas Intruments","Motorola","Zilog","Rabbit Semiconductor","Renesas",
-      "Sumsung","Panasonic","Sony","Acer","Apple","Aston","Dell","Fujifilm","GoPro","HP","JBL","Lenovo","LG","Microsoft","Sandisk","WD","Zotac", "No Brand", ],
+      enum: ["Espressif", "Atmel", "Phillips", "Microchip", "Analog Device", "STMicroelectronics", "Parallax", "Cypress", "Texas Intruments", "Motorola", "Zilog", "Rabbit Semiconductor", "Renesas",
+        "Sumsung", "Panasonic", "Sony", "Acer", "Apple", "Aston", "Dell", "Fujifilm", "GoPro", "HP", "JBL", "Lenovo", "LG", "Microsoft", "Sandisk", "WD", "Zotac", "No Brand",],
     },
     // brand: {
     //   type: ObjectId,

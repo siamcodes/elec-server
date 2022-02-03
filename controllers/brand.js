@@ -8,7 +8,19 @@ exports.create = async (req, res) => {
         // const Generation = await new Generation({ name, slug: slugify(name) }).save();
         // res.json(generation);
         //res.json(await new Generation({ name, slug: slugify(name) }).save());
-        res.json(await new Brand({ name, slug: name }).save());
+
+        let strToThaiSlug = function (str) {
+            return str.replace(/\s+/g, '-')     // Replace spaces with -
+                .replace('%', 'เปอร์เซนต์')         // Translate some charactor
+                .replace(/[^\u0E00-\u0E7F\w-]+/g, '') // Remove all non-word chars
+                .replace(/--+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')           // Trim - from start of text
+                .toLowerCase()
+                .replace(/-+$/, '');
+        }
+        req.body.slug = strToThaiSlug(name);
+
+        res.json(await new Brand({ name, slug: req.body.slug }).save());
     } catch (err) {
         // console.log(err);
         res.status(400).send("Create brand failed");
@@ -26,10 +38,21 @@ exports.read = async (req, res) => {
 exports.update = async (req, res) => {
     const { name } = req.body;
     try {
+        let strToThaiSlug = function (str) {
+            return str.replace(/\s+/g, '-')     // Replace spaces with -
+                .replace('%', 'เปอร์เซนต์')         // Translate some charactor
+                .replace(/[^\u0E00-\u0E7F\w-]+/g, '') // Remove all non-word chars
+                .replace(/--+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')           // Trim - from start of text
+                .toLowerCase()
+                .replace(/-+$/, '');
+        }
+        req.body.slug = strToThaiSlug(name);
+
         const updated = await Brand.findOneAndUpdate(
             { slug: req.params.slug },
             //{ name, slug: slugify(name) },
-            { name, slug: name },
+            { name, slug: req.body.slug },
             { new: true }
         );
         res.json(updated);

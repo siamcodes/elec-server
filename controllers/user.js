@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
+
 const User = require("../models/user");
 const Product = require("../models/product");
 const Cart = require("../models/cart");
@@ -57,6 +60,12 @@ exports.userCart = async (req, res) => {
   console.log("new cart---->", newCart);
   res.json({ ok: true });
 };
+
+//---
+exports.getUserAddress = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  res.json({ user });
+}
 
 exports.getUserCart = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
@@ -213,11 +222,12 @@ exports.createCashOrder = async (req, res) => {
   let newOrder = await new Order({
     products: userCart.products,
     paymentIntent: {
-      id: uniqueid(),
+      // id: uniqueid(),
+      id: new ObjectId(),
       amount: finalAmount,
-      currency: "usd",
+      currency: "thb",
       status: "Cash On Delivery",
-      created: Date.now(),
+      created: Date.now()/1000,
       payment_method_types: ["cash"],
     },
     orderedBy: user._id,

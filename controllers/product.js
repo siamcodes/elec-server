@@ -1,13 +1,24 @@
 const Product = require("../models/product");
 const User = require("../models/user");
-const slugify = require("slugify");
-
+//const slugify = require("slugify");
 
 exports.create = async (req, res) => {
   try {
     console.log(req.body);
-    // req.body.slug = slugify(req.body.title);
-    req.body.slug = req.body.title;
+    //req.body.slug = slugify(req.body.title);
+    //req.body.slug = req.body.title;
+
+    let strToThaiSlug = function (str) {
+      return str.replace(/\s+/g, '-')     // Replace spaces with -
+        .replace('%', 'เปอร์เซนต์')         // Translate some charactor
+        .replace(/[^\u0E00-\u0E7F\w-]+/g, '') // Remove all non-word chars
+        .replace(/--+/g, '-')         // Replace multiple - with single -
+        .replace(/^-+/, '')           // Trim - from start of text
+        .toLowerCase()
+        .replace(/-+$/, '');
+    }
+    req.body.slug = strToThaiSlug(req.body.title);
+
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (err) {
@@ -53,7 +64,19 @@ exports.update = async (req, res) => {
   try {
     if (req.body.title) {
       //req.body.slug = slugify(req.body.title);
-      req.body.slug = req.body.title;
+      //req.body.slug = req.body.title;
+
+      let strToThaiSlug = function (str) {
+        return str.replace(/\s+/g, '-')     // Replace spaces with -
+          .replace('%', 'เปอร์เซนต์')         // Translate some charactor
+          .replace(/[^\u0E00-\u0E7F\w-]+/g, '') // Remove all non-word chars
+          .replace(/--+/g, '-')         // Replace multiple - with single -
+          .replace(/^-+/, '')           // Trim - from start of text
+          .toLowerCase()
+          .replace(/-+$/, '');
+      }
+      req.body.slug = strToThaiSlug(req.body.title);
+
     }
     const updated = await Product.findOneAndUpdate(
       { slug: req.params.slug },
@@ -323,5 +346,16 @@ exports.searchFilters = async (req, res) => {
     await handleBrand(req, res, brand);
   }
 
+};
+
+exports.saveContent = async (req, res) => {
+  console.log("Hi", req.body)
+  const content = await Product.findOneAndUpdate(
+    { slug: req.body.slug },
+    { content: req.body.content },
+    { new: true }
+  ).exec();
+
+   res.json({content, ok: true });
 };
 
