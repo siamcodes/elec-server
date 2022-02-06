@@ -6,6 +6,7 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
+const Contact = require("../models/contact");
 const uniqueid = require("uniqueid");
 
 exports.userCart = async (req, res) => {
@@ -61,8 +62,13 @@ exports.userCart = async (req, res) => {
   res.json({ ok: true });
 };
 
-//---
+
 exports.getUserAddress = async (req, res) => {
+  const user = await User.findOne({ email: req.user.email }).exec();
+  res.json({ user });
+}
+
+exports.getProfile = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
   res.json({ user });
 }
@@ -91,10 +97,8 @@ exports.saveAddress = async (req, res) => {
     { email: req.user.email },
     { address: req.body.address }
   ).exec();
-
   res.json({ ok: true });
 };
-
 
 exports.applyCouponToUserCart = async (req, res) => {
   const { coupon } = req.body;
@@ -249,4 +253,25 @@ exports.createCashOrder = async (req, res) => {
 
   console.log("NEW ORDER SAVED", newOrder);
   res.json({ ok: true });
+};
+
+
+exports.saveContact = async (req, res) => {
+   console.log('Hi ',req.body);
+  // return;
+  const contacts = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { title: req.body.title },
+    { description: req.body.description },
+
+  ).exec();
+  res.json({ ok: true });
+
+ /*  try {
+    const { name, expiry, discount } = req.body.coupon;
+    res.json(await new Coupon({ name, expiry, discount }).save());
+  } catch (err) {
+    console.log(err);
+  } */
+
 };

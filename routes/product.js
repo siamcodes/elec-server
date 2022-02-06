@@ -14,7 +14,8 @@ const {
     productStar,
     listRelated,
     searchFilters,
-    saveContent  //
+    saveContent,  //
+    saveDetail
 } = require("../controllers/product");
 
 // routes
@@ -34,6 +35,7 @@ router.get("/product/related/:productId", listRelated);
 // search
 router.post("/search/filters", searchFilters);
 
-router.post("/product/saveContent",  saveContent); //
+router.post("/product/saveContent",  saveContent);  //
+router.post("/product/saveDetail",  saveDetail);    //
 
 module.exports = router;

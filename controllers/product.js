@@ -359,3 +359,13 @@ exports.saveContent = async (req, res) => {
    res.json({content, ok: true });
 };
 
+exports.saveDetail = async (req, res) => {
+  console.log("Hi", req.body)
+  const detail = await Product.findOneAndUpdate(
+    { slug: req.body.slug },
+    { detail: req.body.detail },
+    { new: true }
+  ).exec();
+
+   res.json({detail, ok: true });
+};

@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 100,
+      maxlength: 200,
       text: true,
     },
     slug: {
@@ -22,15 +22,15 @@ const productSchema = new mongoose.Schema(
       maxlength: 500000,
       text: true,
     },
-    desc: {
+    detail: {
       type: {},
       min: 10,
-      max: 5000000
+      max: 500000
     },
     content: {
       type: {},
       min: 10,
-      max: 50000000
+      max: 5000000
     },
     price: {
       type: Number,

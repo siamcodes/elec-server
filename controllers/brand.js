@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
 };
 
 exports.list = async (req, res) =>
-    res.json(await Brand.find({}).sort({ createdAt: -1 }).exec());
+    res.json(await Brand.find({}).sort({ name: +1, createdAt: -1 }).exec());
 
 exports.read = async (req, res) => {
     let brand = await Brand.findOne({ slug: req.params.slug }).exec();
